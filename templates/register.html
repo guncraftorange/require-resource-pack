@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}注册{% endblock %}
+{% block content %}
+<h1>注册</h1>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+<form method="post">
+    <div>
+        <label for="username">用户名:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">密码:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="confirm_password">确认密码:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+    </div>
+    <button type="submit">注册</button>
+</form>
+<p>已有账号？<a href="/login">登录</a></p>
+{% endblock %}

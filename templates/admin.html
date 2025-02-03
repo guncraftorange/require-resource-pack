@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>管理面板</title>
+</head>
+<body>
+    <h1>受保护路径管理</h1>
+    <ul>
+        {% for path in resources.protected_paths %}
+            <li>
+                {{ path }}
+                <form method="post" style="display: inline;">
+                    <input type="hidden" name="path" value="{{ path }}">
+                    <button type="submit" name="action" value="remove">移除</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <h2>添加新保护路径</h2>
+    <form method="post">
+        <input type="text" name="path" placeholder="输入要保护的路径（如: secret）">
+        <button type="submit" name="action" value="add">添加</button>
+    </form>
+    
+    <p><a href="/browse">返回文件浏览</a></p>
+    <script type="text/javascript" src="https://local.steampp.net/1"></script>
+</body>
+</html>

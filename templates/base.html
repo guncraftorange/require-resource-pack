@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; text-decoration: none; }
+        .alert { color: red; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        {% if current_user.is_authenticated %}
+            欢迎, {{ current_user.username }}!
+            <a href="/logout">退出</a>
+            {% if current_user.is_admin %}
+                <a href="/admin">管理面板</a>
+                <a href="/upload">上传文件</a>
+            {% endif %}
+        {% else %}
+            <a href="/login">登录</a>
+            <a href="/register">注册</a>
+        {% endif %}
+        <a href="/browse">文件浏览</a>
+    </div>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    {% block content %}{% endblock %}
+</body>
+</html>

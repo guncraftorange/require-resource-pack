@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>资源下载站</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .item-list { list-style: none; padding: 0; }
+        .item { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        .folder { background-color: #f0f8ff; }
+        .file { background-color: #fff; }
+        .pagination { margin-top: 20px; }
+        .pagination a { margin: 0 5px; text-decoration: none; }
+        button.delete { color: red; margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <h1>资源列表</h1>
+    <ul class="item-list">
+        {% for item in items %}
+        <li class="item {% if item.is_dir %}folder{% else %}file{% endif %}">
+            {% if item.is_dir %}
+                📁 <a href="{{ item.url }}">{{ item.name }}</a> (文件夹)
+            {% else %}
+                📄 <a href="{{ item.url }}">{{ item.name }}</a> 
+                <span>({{ (item.size / 1024) | round(2) }} KB)</span>
+                <span style="color: #666; margin-left: 20px;">上传时间：{{ item.upload_time }}</span>
+            {% endif %}
+            <form method="post" action="/delete/{{ item.name }}" style="display: inline;">
+                <button type="submit" class="delete" onclick="return confirm('确认删除？')">删除</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="?page={{ page - 1 }}">上一页</a>
+        {% endif %}
+        <span>第 {{ page }} 页 / 共 {{ total_pages }} 页</span>
+        {% if page < total_pages %}
+            <a href="?page={{ page + 1 }}">下一页</a>
+        {% endif %}
+    </div>
+    
+    <p><a href="/upload">管理员上传</a></p>
+</body>
+</html>
